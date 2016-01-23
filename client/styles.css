@@ -3,3 +3,20 @@
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
+.space{
+  background-image: url('https://i.ytimg.com/vi/qbzFSfWwp-w/maxresdefault.jpg');
+  background-size: fill; 
+  background-repeat: no-repeat;
+  position: center;
+
+}
+
+.enemy {
+  background: url('asteroid.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: 0;
+  position:absolute;
+  width:  44px;
+  height: 81px;
+}
