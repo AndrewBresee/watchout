@@ -45,11 +45,12 @@ board.on("mousemove", function(){
 });
 
 //player.attr('cx');
+var collision = 0;
 
 var checkCollision = function(){ 
   var check = false;
   enemies.each(function(){
-    var radiusSum = parseFloat(d3.select(this).attr('r') + 5);
+    var radiusSum = parseFloat(d3.select(this).attr('r'))+5;
 
     var xDiff = d3.select(this).attr('cx') - player.attr('cx');
     var yDiff = d3.select(this).attr('cy') - player.attr('cy');
@@ -58,13 +59,14 @@ var checkCollision = function(){
     
     if (separation < radiusSum) {
       check = true;
-      console.log("collision!!!");
+      collision++;
+      console.log(collision);
     }
 
   });
-  return check;
+  
 
 }; 
 
-checkCollision();
+d3.timer(checkCollision);
 
