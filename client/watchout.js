@@ -6,6 +6,9 @@ var gameOptions = {
   padding: 20
 };
 
+var score = 0;
+var highScore = score; 
+
 var randX = function () {return Math.floor(Math.random()* gameOptions.width);};
 var randY = function () {return Math.floor(Math.random()* gameOptions.height);};
 
@@ -29,6 +32,7 @@ var moveEnemies = function () {
   .each("end", moveEnemies)
   .transition(1000);
 };
+moveEnemies(enemies);
 
 var player = board.append('circle')
   .attr('class', 'player')
@@ -37,24 +41,11 @@ var player = board.append('circle')
   .attr('r',5)
   .style("fill", 'red');
 
-moveEnemies(enemies);
-
 board.on("mousemove", function(){
   var mouse = d3.mouse(this);
   player.attr('cx', mouse[0]).attr('cy', mouse[1]);
 });
 
-var score = 0;
-var highScore = score; 
-
-
-//d3.select("div.current").selectAll('span').data([score]).attr('text':score); 
-
-var span = document.getElementById('highscore-number');
-var txt = document.createTextNode(score.toString());
-span.innerText = txt.textContent;
-
- 
 var scoreIncrementer = function(){
   score++;
   highScore = highScore > score ? highScore : score; 
@@ -68,13 +59,6 @@ var scoreIncrementer = function(){
   span2.innerText = txt2.textContent; 
 };
 setInterval(scoreIncrementer, 100);
-
-// document.getElementById("highscore-number").textContent = highScore.toString();
-
-// updateScore = function(){
-//   return d3.select("div.highscore").selectAll('span').text(score.toString());  
-// }();
-
 
 var checkCollision = function(){ 
   var check = false;
@@ -91,7 +75,6 @@ var checkCollision = function(){
     }
 
   });
-  
 
 }; 
 
