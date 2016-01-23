@@ -42,7 +42,29 @@ moveEnemies(enemies);
 board.on("mousemove", function(){
   var mouse = d3.mouse(this);
   player.attr('cx', mouse[0]).attr('cy', mouse[1]);
-
 });
 
+//player.attr('cx');
+
+var checkCollision = function(){ 
+  var check = false;
+  enemies.each(function(){
+    var radiusSum = parseFloat(d3.select(this).attr('r') + 5);
+
+    var xDiff = d3.select(this).attr('cx') - player.attr('cx');
+    var yDiff = d3.select(this).attr('cy') - player.attr('cy');
+
+    var separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+    
+    if (separation < radiusSum) {
+      check = true;
+      console.log("collision!!!");
+    }
+
+  });
+  return check;
+
+}; 
+
+checkCollision();
 
