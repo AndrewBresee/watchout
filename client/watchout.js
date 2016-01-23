@@ -44,8 +44,37 @@ board.on("mousemove", function(){
   player.attr('cx', mouse[0]).attr('cy', mouse[1]);
 });
 
-//player.attr('cx');
-var collision = 0;
+var score = 0;
+var highScore = score; 
+
+
+//d3.select("div.current").selectAll('span').data([score]).attr('text':score); 
+
+var span = document.getElementById('highscore-number');
+var txt = document.createTextNode(score.toString());
+span.innerText = txt.textContent;
+
+ 
+var scoreIncrementer = function(){
+  score++;
+  highScore = highScore > score ? highScore : score; 
+  
+  var span = document.getElementById('highscore-number');
+  var txt = document.createTextNode(highScore.toString());
+  span.innerText = txt.textContent;
+
+  var span2 = document.getElementById('score-number');
+  var txt2 = document.createTextNode(score.toString());
+  span2.innerText = txt2.textContent; 
+};
+setInterval(scoreIncrementer, 100);
+
+// document.getElementById("highscore-number").textContent = highScore.toString();
+
+// updateScore = function(){
+//   return d3.select("div.highscore").selectAll('span').text(score.toString());  
+// }();
+
 
 var checkCollision = function(){ 
   var check = false;
@@ -58,9 +87,7 @@ var checkCollision = function(){
     var separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
     
     if (separation < radiusSum) {
-      check = true;
-      collision++;
-      console.log(collision);
+      score = 0;
     }
 
   });
