@@ -6,8 +6,8 @@ var gameOptions = {
   padding: 20
 };
 
-var randX = function () {return Math.floor(Math.random()* gameOptions.height);};
-var randY = function () {return Math.floor(Math.random()* gameOptions.width);};
+var randX = function () {return Math.floor(Math.random()* gameOptions.width);};
+var randY = function () {return Math.floor(Math.random()* gameOptions.height);};
 
 var board = d3.select("div.board").append("svg")
   .attr("width", gameOptions.width)
@@ -21,6 +21,15 @@ var enemies = board.selectAll("enemy")
   .attr('cx', randX)
   .attr('cy', randY)
   .attr('r', 10)
-  .attr("fill", 'white'); 
+  .attr("fill", 'white');
 
+
+var moveEnemies = function () {
+  enemies.transition().duration(1000).ease("cubic-in-out")
+  .attr('cx', randX).attr('cy', randY)
+  .each("end", moveEnemies)
+  .transition(1000);
+};
+
+moveEnemies(enemies);
 
