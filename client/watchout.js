@@ -23,9 +23,8 @@ var enemies = board.selectAll("enemy")
   .attr('r', 10)
   .attr("fill", 'white');
 
-
 var moveEnemies = function () {
-  enemies.transition().duration(1000).ease("cubic-in-out")
+  enemies.transition().duration(1300).ease("cubic-in-out")
   .attr('cx', randX).attr('cy', randY)
   .each("end", moveEnemies)
   .transition(1000);
@@ -39,5 +38,11 @@ var player = board.append('circle')
   .style("fill", 'red');
 
 moveEnemies(enemies);
+
+board.on("mousemove", function(){
+  var mouse = d3.mouse(this);
+  player.attr('cx', mouse[0]).attr('cy', mouse[1]);
+
+});
 
 
