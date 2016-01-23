@@ -17,6 +17,14 @@ var board = d3.select("div.board").append("svg")
   .attr("height", gameOptions.height)
   .style("background-color", 'black');   
 
+board.append("filter")
+  .attr({id: "rock", x:"0%", y:"0%", width:"100%", height:"100%"})
+  .append("feImage").attr("xlink:href","asteroid.png")
+
+board.append("filter")
+  .attr({id: "player", x:"0%", y:"0%", width:"100%", height:"100%"})
+  .append("feImage").attr("xlink:href","ufo.png")
+
 var enemies = board.selectAll("enemy")
   .data(d3.range(gameOptions.nEnemies))
   .enter()
@@ -24,7 +32,7 @@ var enemies = board.selectAll("enemy")
   .attr('cx', randX)
   .attr('cy', randY)
   .attr('r', 10)
-  .attr("fill", 'white');
+  .attr({filter : 'url(#rock)'});
 
 var moveEnemies = function () {
   enemies.transition().duration(1300).ease("cubic-in-out")
@@ -38,8 +46,9 @@ var player = board.append('circle')
   .attr('class', 'player')
   .attr('cx', gameOptions.width*0.5)
   .attr('cy',gameOptions.height*0.5)
-  .attr('r',5)
-  .style("fill", 'red');
+  .attr('r',10)
+  .style("fill", 'red')
+  .attr({filter : 'url(#player)'});
 
 board.on("mousemove", function(){
   var mouse = d3.mouse(this);
@@ -63,7 +72,7 @@ setInterval(scoreIncrementer, 100);
 var checkCollision = function(){ 
   var check = false;
   enemies.each(function(){
-    var radiusSum = parseFloat(d3.select(this).attr('r'))+5;
+    var radiusSum = parseFloat(d3.select(this).attr('r')) + 10;
 
     var xDiff = d3.select(this).attr('cx') - player.attr('cx');
     var yDiff = d3.select(this).attr('cy') - player.attr('cy');
