@@ -31,5 +31,13 @@ var moveEnemies = function () {
   .transition(1000);
 };
 
+var player = board.append('circle')
+  .attr('class', 'player')
+  .attr('cx', gameOptions.width*0.5)
+  .attr('cy',gameOptions.height*0.5)
+  .attr('r',5)
+  .style("fill", 'red');
+
 moveEnemies(enemies);
+
 
