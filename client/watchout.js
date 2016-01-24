@@ -1,9 +1,8 @@
-// start slingin' some d3 here.
+//set up board
 var gameOptions = {
   height: 450,
   width: 700,
-  nEnemies: 30,
-  padding: 20
+  nEnemies: 60,
 };
 
 var score = 0;
@@ -15,16 +14,49 @@ var randY = function () {return Math.floor(Math.random()* gameOptions.height);};
 var board = d3.select("div.board").append("svg")
   .attr("width", gameOptions.width)
   .attr("height", gameOptions.height)
-  .style("background-color", 'black');   
+  .style("background-color", 'black')
+  .style('display','block')
+  .style('margin', 'auto');  
+
+//board.append("style").attr('type',"text/css");
 
 board.append("filter")
   .attr({id: "rock", x:"0%", y:"0%", width:"100%", height:"100%"})
-  .append("feImage").attr("xlink:href","asteroid.png")
+  .append("feImage").attr("xlink:href","asteroid.png");
 
 board.append("filter")
   .attr({id: "player", x:"0%", y:"0%", width:"100%", height:"100%"})
-  .append("feImage").attr("xlink:href","ufo.png")
+  .append("feImage").attr("xlink:href","ufo.png");
 
+var scoreIncrementer = function(){
+  score++;
+  highScore = highScore > score ? highScore : score; 
+  
+  var span = document.getElementById('highscore-number');
+  var txt = document.createTextNode(highScore.toString());
+  span.innerText = txt.textContent;
+
+  var span2 = document.getElementById('score-number');
+  var txt2 = document.createTextNode(score.toString());
+  span2.innerText = txt2.textContent; 
+};
+setInterval(scoreIncrementer, 100);
+
+//Set up player
+var player = board.append('circle')
+  .attr('class', 'player')
+  .attr('cx', gameOptions.width*0.5)
+  .attr('cy',gameOptions.height*0.5)
+  .attr('r',10)
+  .style("fill", 'red')
+  .attr({filter : 'url(#player)'});
+
+board.on("mousemove", function(){
+  var mouse = d3.mouse(this);
+  player.attr('cx', mouse[0]).attr('cy', mouse[1]);
+});
+
+//Set up enemies
 var enemies = board.selectAll("enemy")
   .data(d3.range(gameOptions.nEnemies))
   .enter()
@@ -42,33 +74,7 @@ var moveEnemies = function () {
 };
 moveEnemies(enemies);
 
-var player = board.append('circle')
-  .attr('class', 'player')
-  .attr('cx', gameOptions.width*0.5)
-  .attr('cy',gameOptions.height*0.5)
-  .attr('r',10)
-  .style("fill", 'red')
-  .attr({filter : 'url(#player)'});
-
-board.on("mousemove", function(){
-  var mouse = d3.mouse(this);
-  player.attr('cx', mouse[0]).attr('cy', mouse[1]);
-});
-
-var scoreIncrementer = function(){
-  score++;
-  highScore = highScore > score ? highScore : score; 
-  
-  var span = document.getElementById('highscore-number');
-  var txt = document.createTextNode(highScore.toString());
-  span.innerText = txt.textContent;
-
-  var span2 = document.getElementById('score-number');
-  var txt2 = document.createTextNode(score.toString());
-  span2.innerText = txt2.textContent; 
-};
-setInterval(scoreIncrementer, 100);
-
+//set up collision check
 var checkCollision = function(){ 
   var check = false;
   enemies.each(function(){
@@ -86,6 +92,5 @@ var checkCollision = function(){
   });
 
 }; 
-
 d3.timer(checkCollision);
 
