@@ -14,11 +14,8 @@ var randY = function () {return Math.floor(Math.random()* gameOptions.height);};
 var board = d3.select("div.board").append("svg")
   .attr("width", gameOptions.width)
   .attr("height", gameOptions.height)
-  .style("background-color", 'black')
   .style('display','block')
-  .style('margin', 'auto');  
-
-//board.append("style").attr('type',"text/css");
+  .style('margin', 'auto');
 
 board.append("filter")
   .attr({id: "rock", x:"0%", y:"0%", width:"100%", height:"100%"})

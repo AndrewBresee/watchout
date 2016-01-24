@@ -7,6 +7,10 @@
   font-size: 18px;
 }
 
+svg {
+ background-image: url(space.jpg)
+}
+
 .enemy {
  transform: rotate(0deg);
  animation-name:rotate;
